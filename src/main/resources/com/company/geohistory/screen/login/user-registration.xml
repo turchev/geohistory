@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://UserRegistration.caption"
+        xmlns:ext="http://jmix.io/schema/ui/window-ext"
+        extends="com/company/geohistory/screen/user/user-edit.xml">
+    <dialogMode width="AUTO" forceDialog="true"/>
+    <layout>
+        <vbox id="formBox" align="TOP_CENTER" ext:index="0">
+            <image id="logoImage"
+                   align="MIDDLE_CENTER"
+                   scaleMode="FILL"
+                   stylename="jmix-login-logo"
+                   width="200px"/>
+        </vbox>
+        <form id="form">
+            <column>
+                <passwordField id="passwordField"
+                               ext:index="1"
+                               caption="passwordField.caption"/>
+                <passwordField
+                        id="confirmPasswordField"
+                        ext:index="2"
+                        caption="confirmPasswordField.caption"/>
+            </column>
+        </form>
+    </layout>
+</window>

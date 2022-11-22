@@ -1,0 +1,10 @@
+@import "../helium/helium";
+
+@mixin helium-ext {
+  @include helium;
+
+  .geocoding-button {
+        border-radius: 50%;
+  }
+
+}

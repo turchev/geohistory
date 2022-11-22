@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="geo">
+        <createTable tableName="GEO_HISTORY">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_GEO_HISTORY"/>
+            </column>
+            <column name="USER_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LOCATION" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATE_TIME" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="geo">
+        <createIndex indexName="IDX_GEO_HISTORY_USER" tableName="GEO_HISTORY">
+            <column name="USER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="GEO_HISTORY"
+                                 constraintName="FK_GEO_HISTORY_ON_USER" referencedColumnNames="ID"
+                                 referencedTableName="GEO_USER"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,117 @@
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://application.caption"
+        xmlns:maps="http://jmix.io/schema/maps/ui">
+
+    <data>
+        <collection id="historiesDc" class="com.company.geohistory.entity.geo.History">
+            <fetchPlan extends="_base">
+                <property name="user" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="historiesDl">
+                <query>
+                    <![CDATA[select e from geo_History e where e.user=:user order by e.dateTime]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <cssLayout id="horizontalWrap"
+                   stylename="jmix-drawer-layout">
+            <drawer id="drawer" expandOnHover="true">
+                <cssLayout id="appTitleBox"
+                           stylename="jmix-drawer-header"
+                           width="100%">
+                    <image id="logoImage"
+                           stylename="app-icon"
+                           scaleMode="SCALE_DOWN">
+                        <resource>
+                            <theme path="branding/app-icon-menu.svg"/>
+                        </resource>
+                    </image>
+                    <label id="appTitleLabel"
+                           stylename="app-title"
+                           value="msg://application.logoLabel"/>
+                </cssLayout>
+                <sideMenu id="sideMenu"
+                          width="100%"
+                          stylename="jmix-drawer-content"/>
+                <timeZoneIndicator id="timeZoneIndicator"
+                                   align="MIDDLE_CENTER"/>
+                <cssLayout id="controlBox"
+                           stylename="jmix-drawer-footer"
+                           width="100%">
+                    <button id="collapseDrawerButton"
+                            icon="CHEVRON_LEFT"
+                            stylename="jmix-drawer-collapse-button"
+                            description="msg://sideMenuCollapse"/>
+                    <userIndicator id="userIndicator"
+                                   align="MIDDLE_CENTER"/>
+                    <logoutButton id="logoutButton"
+                                  icon="SIGN_OUT"
+                                  description="msg://logoutBtnDescription"/>
+                </cssLayout>
+            </drawer>
+            <workArea id="workArea"
+                      stylename="jmix-workarea"
+                      height="100%">
+                <initialLayout spacing="true" margin="true">
+                    <hbox spacing="true">
+                        <groupBox outerMargin="true,false,true,false" spacing="true" width="AUTO"
+                                  showAsPanel="true" caption="msg://groupBox.caption">
+                            <maps:geoMap id="locationMap" height="700" width="800"
+                                         centerX="49.29716" centerY="53.53349" zoom="12">
+                                <maps:layers selectedLayer="historyLayer">
+                                    <maps:tile id="tileLayer" tileProvider="map_OpenStreetMap"/>
+                                    <maps:vector id="historyLayer" dataContainer="historiesDc" editable="false"/>
+                                </maps:layers>
+                            </maps:geoMap>
+                        </groupBox>
+                        <vbox spacing="true">
+                            <groupBox outerMargin="true,false,true,false" spacing="true" width="500"
+                                      showAsPanel="true" caption="msg://groupFindPanel.caption">
+                                <hbox spacing="true">
+                                    <form>
+                                        <column width="350px">
+                                            <textField id="cityField" datatype="string"
+                                                       caption="msg://cityField.caption"/>
+                                            <textField id="streetField" datatype="string"
+                                                       caption="msg://streetField.caption"/>
+                                            <textField id="houseField" datatype="string"
+                                                       caption="msg://houseField.caption"/>
+                                        </column>
+                                    </form>
+                                    <button id="geocodingBtn" height="50" width="50"
+                                            stylename="geocoding-button"
+                                            description="msg://geocodingBtn.description"
+                                            align="MIDDLE_CENTER"
+                                            icon="LOCATION_ARROW"/>
+                                </hbox>
+                            </groupBox>
+                            <groupBox outerMargin="true,false,true,false" spacing="true" width="500"
+                                      showAsPanel="true" caption="msg://groupBoxRight.caption">
+                                <table id="historyTable"
+                                       dataContainer="historiesDc"
+                                       height="450"
+                                       width="100%">
+                                    <actions>
+                                        <action id="remove" type="remove"
+                                                caption="msg://removeAction.caption"/>
+                                    </actions>
+                                    <columns>
+                                        <column id="dateTime"/>
+                                        <column id="location"/>
+                                        <column id="user"/>
+                                    </columns>
+                                </table>
+                                <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                                    <button id="removeBtn" action="historyTable.remove" width="500"
+                                            box.expandRatio="1.0" icon="TRASH" primary="true"/>
+                                </buttonsPanel>
+                            </groupBox>
+                        </vbox>
+                    </hbox>
+                </initialLayout>
+            </workArea>
+        </cssLayout>
+    </layout>
+</window>
