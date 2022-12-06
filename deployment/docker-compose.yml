@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+  geo-postgresql:
+    container_name: ${COMPOSE_PROJECT_NAME}-postgresql
+    image: ${COMPOSE_PROJECT_NAME}-postgresql
+    build:
+      context: ./docker-images/postgresql/
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}  
+    ports:
+      - ${POSTGRES_PORTS}
+    restart: always    
+    volumes:
+      - ../db/${COMPOSE_PROJECT_NAME}-data:/${COMPOSE_PROJECT_NAME}/lib/postgresql/data
+#      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+  geo-web:
+    container_name: ${COMPOSE_PROJECT_NAME}-web
+    image: ${COMPOSE_PROJECT_NAME}-web
+    build:
+      context: ./docker-images/web/
+    depends_on:
+      - ${COMPOSE_PROJECT_NAME}-postgresql 
+    network_mode: "host"
+    restart: always 
+    volumes:
+      - ../fs:/fs   
+
+
